@@ -767,10 +767,13 @@ def level_5(player1, player2):
     goal1 = pygame.Rect(0, HEIGHT//2 - goal_height//2, goal_width, goal_height)
     goal2 = pygame.Rect(WIDTH - goal_width, HEIGHT//2 - goal_height//2, goal_width, goal_height)
 
+    background= pygame.image.load('ProjetoFinal/CampoFut.png').convert()
+    background = pygame.transform.scale(background, (WIDTH*1.09, HEIGHT*1.7))
+
     running = True
     while running:
         screen.fill(BLACK)
-        screen.blit('Leonardo_Phoenix_09_Create_a_highly_detailed_pixelated_topdown_1.jpg', (0, 0))
+        screen.blit(background, (-WIDTH*0.03, -HEIGHT*0.5))
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
