@@ -197,7 +197,7 @@ class Enemy(pygame.sprite.Sprite):
 class Boss(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
-        self.image = pygame.image.load('bosspygame.png').convert_alpha()
+        self.image = pygame.image.load('ProjetoFinal/bosspygame.png').convert_alpha()
         self.image = pygame.transform.scale(self.image, (60, 60))
         self.rect = self.image.get_rect()
         self.rect.x = WIDTH//2 - 30
@@ -274,7 +274,7 @@ class Ball(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
         # Carrega a imagem da bola de futebol
-        self.image = pygame.image.load('bolafutebolpygame-1.png.png').convert_alpha()
+        self.image = pygame.image.load('ProjetoFinal/bolafutebolpygame-1.png.png').convert_alpha()
         self.image = pygame.transform.scale(self.image, (30, 30))  # Ajusta o tamanho para 30x30
         self.rect = self.image.get_rect()
         self.rect.x = WIDTH//2 - 15
@@ -669,9 +669,9 @@ def level_4(player1, player2):
     winner = 0
     shot_fired = False
     
-    green_square = pygame.image.load('farolverde-1.png.png').convert_alpha()
+    green_square = pygame.image.load('ProjetoFinal/farolverde-1.png.png').convert_alpha()
     green_square = pygame.transform.scale(green_square, (150, 150))
-    red_square = pygame.image.load('farolvermelho-1.png.png').convert_alpha()
+    red_square = pygame.image.load('ProjetoFinal/farolvermelho-1.png.png').convert_alpha()
     red_square = pygame.transform.scale(red_square, (150, 150))
 
     running = True
@@ -799,7 +799,7 @@ def level_5(player1, player2):
 
         ball.update()
         
-        if ((ball.rect.x-player1.rect.x)**2+(ball.rect.y-player1.rect.y)**2)**0.5 < 40:
+        if ((ball.rect.x-player1.rect.x)**2+(ball.rect.y-player1.rect.y)**2)**0.5 < 45:
             ball.dx = -abs(ball.dx)
             if player1.rect.y < ball.rect.y and player1.rect.x < ball.rect.x:
                 ball.dy = 4
@@ -817,7 +817,7 @@ def level_5(player1, player2):
                 ball.dy = 0
                 ball.dx = 4
         
-        if ((ball.rect.x-player2.rect.x)**2+(ball.rect.y-player2.rect.y)**2)**0.5 < 40:
+        if ((ball.rect.x-player2.rect.x)**2+(ball.rect.y-player2.rect.y)**2)**0.5 < 45:
             ball.dx = -abs(ball.dx)
             if player2.rect.y < ball.rect.y and player2.rect.x < ball.rect.x:
                 ball.dy = 4
@@ -839,14 +839,14 @@ def level_5(player1, player2):
         if ball.rect.colliderect(goal1):
             goals_p2 += 1
             ball = Ball()
-            if goals_p2 >= 3:
+            if goals_p2 >= 2:
                 return 2
 
         # Gol para o jogador 1
         if ball.rect.colliderect(goal2):
             goals_p1 += 1
             ball = Ball()
-            if goals_p1 >= 3:
+            if goals_p1 >= 2:
                 return 1
 
         screen.blit(player1.image, player1.rect)
