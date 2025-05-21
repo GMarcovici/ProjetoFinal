@@ -429,9 +429,13 @@ def level_1(player1, player2):
             if not any(player.rect.colliderect(o.rect) for o in obstacles):
                 break
     
+    FundoLevel1= pygame.image.load('ProjetoFinal/BackgroundLevel1.png').convert()
+    FundoLevel1 = pygame.transform.scale(FundoLevel1, (WIDTH*1.09, HEIGHT*1.7))
+
     running = True
     while running:
         screen.fill(BLACK)
+        screen.blit(FundoLevel1, (-WIDTH*0.03, -HEIGHT*0.5))
         
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -767,13 +771,13 @@ def level_5(player1, player2):
     goal1 = pygame.Rect(0, HEIGHT//2 - goal_height//2, goal_width, goal_height)
     goal2 = pygame.Rect(WIDTH - goal_width, HEIGHT//2 - goal_height//2, goal_width, goal_height)
 
-    background= pygame.image.load('ProjetoFinal/CampoFut.png').convert()
-    background = pygame.transform.scale(background, (WIDTH*1.09, HEIGHT*1.7))
+    CampoFut= pygame.image.load('ProjetoFinal/CampoFut.png').convert()
+    CampoFut = pygame.transform.scale(CampoFut, (WIDTH*1.09, HEIGHT*1.7))
 
     running = True
     while running:
         screen.fill(BLACK)
-        screen.blit(background, (-WIDTH*0.03, -HEIGHT*0.5))
+        screen.blit(CampoFut, (-WIDTH*0.03, -HEIGHT*0.5))
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
