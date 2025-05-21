@@ -429,7 +429,7 @@ def level_1(player1, player2):
             if not any(player.rect.colliderect(o.rect) for o in obstacles):
                 break
     
-    FundoLevel1= pygame.image.load('ProjetoFinal/BackgroundLevel1.png').convert()
+    FundoLevel1= pygame.image.load('ProjetoFinal/BackgroundLevel1 (1).png').convert()
     FundoLevel1 = pygame.transform.scale(FundoLevel1, (WIDTH*1.09, HEIGHT*1.7))
 
     running = True
