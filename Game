@@ -125,7 +125,7 @@ class Player(pygame.sprite.Sprite):
 class Bullet(pygame.sprite.Sprite):
     def __init__(self, x, y, dx, dy, color):
         super().__init__()
-        self.image = pygame.image.load('ProjetoFinal/Tiro.png').convert_alpha()
+        self.image = pygame.image.load('ProjetoFinal/Bala.png').convert_alpha()
         self.image = pygame.transform.scale(self.image, (30, 30))
         self.rect = self.image.get_rect()
         self.rect.x = x
@@ -364,7 +364,7 @@ def title_screen():
         
         if state == "main":
             # Draw title
-            draw_text("Duelo de Jogadores", big_font, WHITE, WIDTH//2, HEIGHT//3, screen)
+            draw_text("Duel Minigames", big_font, WHITE, WIDTH//2, HEIGHT//3, screen)
             
             # Pulsing "Press ENTER to Start" text
             pulse_scale = 1 + 0.1 * math.sin(2 * math.pi * pulse_timer / pulse_max)
@@ -764,7 +764,7 @@ def level_4(player1, player2):
     red_square = pygame.image.load('ProjetoFinal/farolvermelho-1.png.png').convert_alpha()
     red_square = pygame.transform.scale(red_square, (150, 150))
 
-    FundoLevel4= pygame.image.load('ProjetoFinal/fundodeserto.png').convert()
+    FundoLevel4 = pygame.image.load('ProjetoFinal/fundodeserto.png').convert()
     FundoLevel4 = pygame.transform.scale(FundoLevel4, (WIDTH*1.09, HEIGHT*1.7))
 
     running = True
@@ -798,9 +798,11 @@ def level_4(player1, player2):
                 square_change_time = random.randint(2, 4) * FPS
             square_timer = 0
         
-        player1.update_bullets([], None, player2 if shot_fired and player1.bullets else None)
-        player2.update_bullets([], None, player1 if shot_fired and player2.bullets else None)
+        # Update bullets
+        player1.update_bullets([], None, player2)
+        player2.update_bullets([], None, player1)
         
+        # Check collisions
         if shot_fired:
             for bullet in player1.bullets:
                 if bullet.rect.colliderect(player2.rect):
@@ -815,17 +817,22 @@ def level_4(player1, player2):
         if player1.lives <= 0 or player2.lives <= 0:
             running = False
         
+        # Draw players and bullets
         screen.blit(player1.image, player1.rect)
         screen.blit(player2.image, player2.rect)
+        player1.bullets.draw(screen)
+        player2.bullets.draw(screen)
         
         player1.draw_lives(screen)
         player2.draw_lives(screen)
         
+        # Draw square
         if square_color == GREEN:
             screen.blit(green_square, square)
         else:
             screen.blit(red_square, square)
         
+        # Draw text
         if can_shoot and not shot_fired:
             draw_text("ATIRE AGORA!", font, WHITE, WIDTH//2, HEIGHT//2 + 70, screen)
         elif can_shoot and shot_fired:
