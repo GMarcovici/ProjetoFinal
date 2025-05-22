@@ -3,7 +3,7 @@ import pygame, random, math
 
 # Inicialização
 pygame.init()
-WIDTH, HEIGHT = 1000, 800
+WIDTH, HEIGHT = 1400, 800
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Duel Minigames")
 
@@ -16,14 +16,14 @@ FPS = 60
 
 # Classes -------------------------------------------------------------------------------------------------------------------------
 class Player(pygame.sprite.Sprite):
-    def __init__(self, x, y, color, controls, shoot_key):
+    def __init__(self, x, y, destinatario, color, controls, shoot_key):
         super().__init__()
-        self.image = pygame.Surface((30, 30))
-        self.image.fill(color)
+        self.image = pygame.image.load(destinatario).convert_alpha()
+        self.image = pygame.transform.scale(self.image, (40, 40))
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
-        self.color = color
+        self.color = BLUE
         self.speed = 5
         self.controls = controls 
         self.shoot_key = shoot_key
@@ -429,7 +429,7 @@ def level_1(player1, player2):
             if not any(player.rect.colliderect(o.rect) for o in obstacles):
                 break
     
-    FundoLevel1= pygame.image.load('ProjetoFinal/BackgroundLevel1 (1).png').convert()
+    FundoLevel1= pygame.image.load('ProjetoFinal/fundopedra.png').convert()
     FundoLevel1 = pygame.transform.scale(FundoLevel1, (WIDTH*1.09, HEIGHT*1.7))
 
     running = True
@@ -499,9 +499,13 @@ def level_2(player1, player2):
     
     boss = Boss()
     
+    FundoLevel2= pygame.image.load('ProjetoFinal/fundopedra.png').convert()
+    FundoLevel2 = pygame.transform.scale(FundoLevel2, (WIDTH*1.09, HEIGHT*1.7))
+
     running = True
     while running:
         screen.fill(BLACK)
+        screen.blit(FundoLevel2, (-WIDTH*0.03, -HEIGHT*0.5))
         
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -583,10 +587,14 @@ def level_3(player1, player2):
     timer = 3 * FPS
     game_started = False
     winner = 0
+
+    FundoLevel3= pygame.image.load('ProjetoFinal/fundodeserto.png').convert()
+    FundoLevel3 = pygame.transform.scale(FundoLevel3, (WIDTH*1.09, HEIGHT*1.7))
     
     running = True
     while running:
         screen.fill(BLACK)
+        screen.blit(FundoLevel3, (-WIDTH*0.03, -HEIGHT*0.4))
         
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -678,9 +686,13 @@ def level_4(player1, player2):
     red_square = pygame.image.load('ProjetoFinal/farolvermelho-1.png.png').convert_alpha()
     red_square = pygame.transform.scale(red_square, (150, 150))
 
+    FundoLevel4= pygame.image.load('ProjetoFinal/fundodeserto.png').convert()
+    FundoLevel4 = pygame.transform.scale(FundoLevel4, (WIDTH*1.09, HEIGHT*1.7))
+
     running = True
     while running:
         screen.fill(BLACK)
+        screen.blit(FundoLevel4, (-WIDTH*0.03, -HEIGHT*0.4))
         
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -886,13 +898,9 @@ def main():
     if not title_screen():
         return  # Exit if title screen returns False (user quit)
     
-    player1 = Player(100, HEIGHT//2, BLUE, 
-                    [pygame.K_w, pygame.K_s, pygame.K_a, pygame.K_d], 
-                    pygame.K_SPACE)
+    player1 = Player(100, HEIGHT//2, 'ProjetoFinal/Azulbaixo-1.png.png', BLUE, [pygame.K_w, pygame.K_s, pygame.K_a, pygame.K_d], pygame.K_SPACE)
     
-    player2 = Player(WIDTH-130, HEIGHT//2, RED,
-                    [pygame.K_UP, pygame.K_DOWN, pygame.K_LEFT, pygame.K_RIGHT],
-                    pygame.K_RETURN)
+    player2 = Player(WIDTH-130, HEIGHT//2, 'ProjetoFinal/Vermelhobaixo-1.png.png', RED, [pygame.K_UP, pygame.K_DOWN, pygame.K_LEFT, pygame.K_RIGHT],pygame.K_RETURN)
     
     player1_score = 0
     player2_score = 0
