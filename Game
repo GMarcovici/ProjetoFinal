@@ -151,17 +151,39 @@ class Obstacle(pygame.sprite.Sprite):
 class Enemy(pygame.sprite.Sprite):
     def __init__(self, x, y):
         super().__init__()
-        self.image = pygame.Surface((25, 25))
-        self.image.fill(RED)
+        # Load animation frames
+        self.animation_frames = [
+            pygame.image.load(f'ProjetoFinal/bosspygame/sprite_{i}.png').convert_alpha()
+            for i in range(1, 5)  # Assuming you have 4 frames: enemy_frame1.png, enemy_frame2.png, etc.
+        ]
+        self.animation_frames = [pygame.transform.scale(frame, (50, 50)) for frame in self.animation_frames]
+        self.current_frame = 0
+        self.animation_timer = 0
+        self.animation_speed = 10  # Frames per animation step
+
+        self.image = self.animation_frames[self.current_frame]
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
-        self.color = RED
         self.speed = 2
         self.bullets = pygame.sprite.Group()
         self.cooldown = random.randint(30, 90)
-    
+
+    def update_animation(self):
+        # Increment the animation timer
+        self.animation_timer += 1
+        if self.animation_timer >= self.animation_speed:
+            self.animation_timer = 0
+            # Cycle to the next frame using a for loop
+            for i in range(len(self.animation_frames)):
+                if i == self.current_frame:
+                    self.current_frame = (self.current_frame + 1) % len(self.animation_frames)
+                    break
+            self.image = self.animation_frames[self.current_frame]
+
     def update(self, players):
+        self.update_animation()  # Update the animation
+
         # Find closest player
         closest_player = min(players, key=lambda p: math.hypot(
             self.rect.centerx - p.rect.centerx, 
@@ -173,7 +195,7 @@ class Enemy(pygame.sprite.Sprite):
         
         self.rect.x += (dx / dist) * self.speed
         self.rect.y += (dy / dist) * self.speed
-    
+
     def shoot(self):
         if self.cooldown <= 0:
             bullet_speed = 4
@@ -209,12 +231,20 @@ class Enemy(pygame.sprite.Sprite):
 class Boss(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
-        self.image = pygame.image.load('ProjetoFinal/bosspygame.png').convert_alpha()
-        self.image = pygame.transform.scale(self.image, (60, 60))
+        # Load animation frames
+        self.animation_frames = [
+            pygame.image.load(f'ProjetoFinal/bosspygame/sprite_{i}.png').convert_alpha()
+            for i in range(1, 5)  # Assuming you have 4 frames: boss_frame1.png, boss_frame2.png, etc.
+        ]
+        self.animation_frames = [pygame.transform.scale(frame, (100, 100)) for frame in self.animation_frames]
+        self.current_frame = 0
+        self.animation_timer = 0
+        self.animation_speed = 15  # Frames per animation step
+
+        self.image = self.animation_frames[self.current_frame]
         self.rect = self.image.get_rect()
-        self.rect.x = WIDTH//2 - 30
-        self.rect.y = HEIGHT//2 - 30
-        self.color = RED
+        self.rect.x = WIDTH // 2 - 50
+        self.rect.y = HEIGHT // 2 - 50
         self.speed = 4
         self.bullets = pygame.sprite.Group()
         self.cooldown = 0
@@ -222,8 +252,22 @@ class Boss(pygame.sprite.Sprite):
         self.health = 20
         self.move_direction = 1
         self.start_delay = 2 * FPS
-    
+
+    def update_animation(self):
+        # Increment the animation timer
+        self.animation_timer += 1
+        if self.animation_timer >= self.animation_speed:
+            self.animation_timer = 0
+            # Cycle to the next frame using a for loop
+            for i in range(len(self.animation_frames)):
+                if i == self.current_frame:
+                    self.current_frame = (self.current_frame + 1) % len(self.animation_frames)
+                    break
+            self.image = self.animation_frames[self.current_frame]
+
     def update(self):
+        self.update_animation()  # Update the animation
+
         if self.start_delay > 0:
             self.start_delay -= 1
             return
@@ -234,7 +278,7 @@ class Boss(pygame.sprite.Sprite):
             self.move_direction = 1
         elif self.rect.right >= WIDTH:
             self.move_direction = -1
-    
+
     def shoot(self):
         if self.start_delay > 0:
             return
@@ -471,7 +515,7 @@ def level_1(player1, player2):
             if not any(player.rect.colliderect(o.rect) for o in obstacles):
                 break
     
-    FundoLevel1= pygame.image.load('ProjetoFinal/fundopedra.png').convert()
+    FundoLevel1= pygame.image.load('ProjetoFinal/Fundo1.png').convert()
     FundoLevel1 = pygame.transform.scale(FundoLevel1, (WIDTH*1.09, HEIGHT*1.7))
 
     running = True
@@ -543,7 +587,7 @@ def level_2(player1, player2):
     
     boss = Boss()
     
-    FundoLevel2= pygame.image.load('ProjetoFinal/fundopedra.png').convert()
+    FundoLevel2= pygame.image.load('ProjetoFinal/Fundo1.png').convert()
     FundoLevel2 = pygame.transform.scale(FundoLevel2, (WIDTH*1.09, HEIGHT*1.7))
 
     running = True
