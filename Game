@@ -402,30 +402,16 @@ def title_screen():
     state = "main"  # Can be "main" or "instructions"
     pulse_timer = 0  # For pulsing text effect
     pulse_max = 30  # Frames for one pulse cycle
+
+    TelaInicio= pygame.image.load('ProjetoFinal/TelaInicio.png').convert()
+    TelaInicio = pygame.transform.scale(TelaInicio, (WIDTH, HEIGHT))
     
     while True:
         screen.fill(BLACK)
-        
-        if state == "main":
-            # Draw title
-            draw_text("Duel Minigames", big_font, WHITE, WIDTH//2, HEIGHT//3, screen)
-            
-            # Pulsing "Press ENTER to Start" text
-            pulse_scale = 1 + 0.1 * math.sin(2 * math.pi * pulse_timer / pulse_max)
-            start_text = font.render("Pressione ENTER para Iniciar", True, WHITE)
-            start_rect = start_text.get_rect(center=(WIDTH//2, HEIGHT//2))
-            start_rect = start_rect.inflate(start_rect.width * (pulse_scale - 1), 
-                                         start_rect.height * (pulse_scale - 1))
-            screen.blit(pygame.transform.scale(start_text, start_rect.size), 
-                       start_rect)
-            
-            # Instructions prompt
-            draw_text("Pressione I para Instruções", font, YELLOW, WIDTH//2, HEIGHT*2//3, screen)
-            
-            # Exit prompt
-            draw_text("Pressione ESC para Sair", font, RED, WIDTH//2, HEIGHT*3//4, screen)
-        
-        elif state == "instructions":
+        screen.blit(TelaInicio, (0, 0))
+
+        if state == "instructions":
+            screen.fill(BLACK)
             draw_text("Instruções", big_font, WHITE, WIDTH//2, HEIGHT//5, screen)
             draw_text("Jogador 1: WASD para mover, ESPAÇO para atirar", font, BLUE, WIDTH//2, HEIGHT*2//5, screen)
             draw_text("Jogador 2: Setas para mover, ENTER para atirar", font, RED, WIDTH//2, HEIGHT*3//5, screen)
@@ -516,7 +502,7 @@ def level_1(player1, player2):
                 break
     
     FundoLevel1= pygame.image.load('ProjetoFinal/Fundo1.png').convert()
-    FundoLevel1 = pygame.transform.scale(FundoLevel1, (WIDTH*1.09, HEIGHT*1.7))
+    FundoLevel1 = pygame.transform.scale(FundoLevel1, (WIDTH*1.09, HEIGHT*1.8))
 
     running = True
     while running:
@@ -588,7 +574,7 @@ def level_2(player1, player2):
     boss = Boss()
     
     FundoLevel2= pygame.image.load('ProjetoFinal/Fundo1.png').convert()
-    FundoLevel2 = pygame.transform.scale(FundoLevel2, (WIDTH*1.09, HEIGHT*1.7))
+    FundoLevel2 = pygame.transform.scale(FundoLevel2, (WIDTH*1.09, HEIGHT*1.8))
 
     running = True
     while running:
